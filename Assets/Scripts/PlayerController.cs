@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
         if (_characterController.isGrounded)
         {
-            _fallVelocity = 0;
+            _fallVelocity = 0f;
         }
     }
 }
