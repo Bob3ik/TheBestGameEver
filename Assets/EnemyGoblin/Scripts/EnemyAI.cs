@@ -6,11 +6,16 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private PlayerController _player;
+    [SerializeField] private Animator _animator;
     [SerializeField] private List<Transform> _patrolPoint;
 
-    [SerializeField] private float _viewAngle;
-
     private NavMeshAgent _navMeshAgent;
+    private PlayerHealth _playerHealth;
+
+    [SerializeField] private float _viewAngle;
+    [SerializeField] private float _damage = 20f;
+    [SerializeField] private float _attackDistance = 1f;
+
     private bool _isPlayerNoticed = false;
 
     private void Start()
@@ -23,6 +28,7 @@ public class EnemyAI : MonoBehaviour
     {
         NoticePlayerUpdate();
         ChaseUpdate();
+        AttackUpdate();
         PatroUpdate();
     }
 
@@ -30,8 +36,10 @@ public class EnemyAI : MonoBehaviour
 
     private void NoticePlayerUpdate()
     {
-        var direction = _player.transform.position - transform.position;
+        _isPlayerNoticed = false;
+        if (_playerHealth.Value <= 0) return;
 
+        var direction = _player.transform.position - transform.position;
         if (Vector3.Angle(transform.forward, direction) < _viewAngle)
         {
             RaycastHit hit;
@@ -49,10 +57,29 @@ public class EnemyAI : MonoBehaviour
     {
         if (!_isPlayerNoticed)
         {
-            if (_navMeshAgent.remainingDistance == 0)
+            if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
             {
                 PickNewPatrolPoint();
             }
+        }
+    }
+
+    private void AttackUpdate()
+    {
+        if (_isPlayerNoticed)
+        {
+            if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+            {
+                _animator.SetTrigger("attack");
+            }
+        }
+    }
+
+    public void AttackDamage()
+    {
+        if (_playerHealth.Value > 0)
+        {
+            _playerHealth.DeadDamage(_damage);
         }
     }
 
@@ -67,5 +94,6 @@ public class EnemyAI : MonoBehaviour
     private void InitComponentLinks()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _playerHealth = _player.GetComponent<PlayerHealth>();
     }
 }
