@@ -7,9 +7,17 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     [SerializeField] public float Value;
+    private PlayerProgress _playerProgress;
+
+    private void Start()
+    {
+        _playerProgress = FindObjectOfType<PlayerProgress>();
+    }
 
     public void DeadDamage(float damage)
     {
+        _playerProgress.AddExperience(damage);
+
         Value -= damage;
         if (Value <= 0)
         {

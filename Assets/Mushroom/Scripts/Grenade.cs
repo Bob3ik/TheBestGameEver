@@ -6,6 +6,7 @@ public class Grenade : MonoBehaviour
 {
     [SerializeField, Range(1f, 5f)] private float _delay = 2f;
     [SerializeField] private GameObject _explosionPrefab;
+    public float Damage = 50f;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -17,5 +18,6 @@ public class Grenade : MonoBehaviour
         Destroy(gameObject);
         var explosion = Instantiate(_explosionPrefab);
         explosion.transform.position = transform.position;
+        explosion.GetComponent<Explosion>().Damage = Damage;
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    private float _damage = 50f;
-    private float _maxSize = 12.5f;
+    public float Damage = 50f;
+    private float _maxSize = 14f;
     private float _speed = 10f;
 
     private void Start()
@@ -28,13 +28,13 @@ public class Explosion : MonoBehaviour
         var playerHealth = other.GetComponent<PlayerHealth>();
         if (playerHealth != null)
         {
-            playerHealth.DeadDamage(_damage);
+            playerHealth.DeadDamage(Damage);
         }
 
         var enemyHealth = other.GetComponent<EnemyHealth>();
         if (enemyHealth != null)
         {
-            enemyHealth.DeadDamage(_damage);
+            enemyHealth.DeadDamage(Damage);
         }
     }
 }

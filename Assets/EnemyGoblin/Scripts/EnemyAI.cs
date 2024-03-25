@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] private PlayerController _player;
     [SerializeField] private Animator _animator;
     [SerializeField] private List<Transform> _patrolPoint;
 
     private NavMeshAgent _navMeshAgent;
+    private PlayerController _player;
     private PlayerHealth _playerHealth;
 
     [SerializeField] private float _viewAngle;
@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         InitComponentLinks();
-        PickNewPatrolPoint();
+        //PickNewPatrolPoint();
     }
 
     private void Update()
@@ -32,7 +32,7 @@ public class EnemyAI : MonoBehaviour
         PatroUpdate();
     }
 
-    private void PickNewPatrolPoint() => _navMeshAgent.destination = _patrolPoint[Random.Range(0, _patrolPoint.Count)].position;
+    //private void PickNewPatrolPoint() => _navMeshAgent.destination = _patrolPoint[Random.Range(0, _patrolPoint.Count)].position;
 
     private void NoticePlayerUpdate()
     {
@@ -59,7 +59,7 @@ public class EnemyAI : MonoBehaviour
         {
             if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
             {
-                PickNewPatrolPoint();
+                //PickNewPatrolPoint();
             }
         }
     }
@@ -93,6 +93,7 @@ public class EnemyAI : MonoBehaviour
 
     private void InitComponentLinks()
     {
+        _player = GameObject.Find("Player").GetComponent<PlayerController>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _playerHealth = _player.GetComponent<PlayerHealth>();
     }

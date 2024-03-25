@@ -7,7 +7,7 @@ public class Fireball : MonoBehaviour
 {
     [SerializeField, Range(1f, 20f)] private float _speed = 5;
     [SerializeField, Range(1f, 20f)] private float _lifeTime = 2.5f;
-    [SerializeField, Range(1f, 20f)] private float _damage = 10f;
+    [SerializeField, Range(1f, 20f)] public float Damage = 10f;
 
     private void Start()
     {
@@ -24,7 +24,7 @@ public class Fireball : MonoBehaviour
         var enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
         if (enemyHealth != null)
         {
-            enemyHealth.DeadDamage(_damage);
+            enemyHealth.DeadDamage(Damage);
         }
 
         DestroyFireball();
