@@ -7,11 +7,15 @@ public class GrenadeCaster : MonoBehaviour
     [SerializeField] private Rigidbody _grenadePrefab;
     [SerializeField] private Transform _grenadeSourceTransform;
 
+    private float _forse = 350f;
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(1))
         {
-            Instantiate(_grenadePrefab);
+            var grenade = Instantiate(_grenadePrefab);
+            grenade.transform.position = _grenadeSourceTransform.position;
+            grenade.GetComponent<Rigidbody>().AddForce(_grenadeSourceTransform.forward * _forse);
         }
     }
 }
